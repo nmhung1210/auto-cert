@@ -1,0 +1,32 @@
+{
+  "name": "auto-cert",
+  "version": "1.0.0",
+  "description": "Standalone http server for generating ssl cert using letsencrypt",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2-runtime start index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmhung1210/auto-cert.git"
+  },
+  "keywords": [
+    "ssl",
+    "cert",
+    "letsencrypt",
+    "auto-cert",
+    "https"
+  ],
+  "author": "Hung Nguyen <nmhung1210@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmhung1210/auto-cert/issues"
+  },
+  "homepage": "https://github.com/nmhung1210/auto-cert#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+  },
+  "devDependencies": {
+    "pm2": "^3.5.1"
+  }
+}
