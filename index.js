@@ -1,6 +1,5 @@
 const express = require("express");
-const execSync = require("child_process").execSync;
-const readFileSync = require("fs").readFileSync;
+const exec = require("child_process").exec;
 
 const app = express();
 const tracks = {};
@@ -8,32 +7,29 @@ const tracks = {};
 let renewsPid = 0;
 const renews = () => {
   clearTimeout(renewsPid);
-  execSync(`certbot renew`);
+  exec(`certbot renew`);
   renewsPid = setTimeout(renews, 24 * 60 * 60 * 1000);
 };
 
-app.get("/.well-known/acme-challenge/:token", (req, res) => {
-  const { token } = req.params;
-  const validation = readFileSync(
-    `/tmp/.well-known/acme-challenge/${token.trim()}`
-  );
-  res.send(validation);
-});
-
+app.get("/.well-known/*", express.static("/tmp"));
 app.use("/.ssl/init", function(req, res) {
   if (tracks[req.hostname]) {
     return req.send("ok");
   }
   try {
-    execSync(
+    exec(
       `certbot certonly --agree-tos --email=nmhung1210@gmail.com -n --webroot -w /tmp -d ${req.hostname}`,
-      {
-        stdio: "inherit"
+      (err, stdout, stderr) => {
+        if (err) {
+          console.log({ err, stdout, stderr });
+          res.send("error!");
+        } else {
+          renews();
+          tracks[req.hostname] = Date.now();
+          res.send("ok");
+        }
       }
     );
-    renews();
-    tracks[req.hostname] = Date.now();
-    res.send("ok");
   } catch (error) {
     res.send("error!");
   }
