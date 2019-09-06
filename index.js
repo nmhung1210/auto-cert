@@ -11,14 +11,14 @@ const renews = () => {
   renewsPid = setTimeout(renews, 24 * 60 * 60 * 1000);
 };
 
-app.use('/.well-known', express.static('/app/.well-known'));
+app.use('/.well-known', express.static('/tmp/.well-known'));
 app.use('/.ssl/init', function(req, res) {
   if (tracks[req.hostname]) {
     return req.send('ok');
   }
   try {
     execSync(
-      `certbot certonly --agree-tos --email=nmhung1210@gmail.com -n --webroot -w /app -d ${req.hostname}`,
+      `certbot certonly --agree-tos --email=nmhung1210@gmail.com -n --webroot -w /tmp -d ${req.hostname}`,
       {
         stdio: 'inherit'
       }
