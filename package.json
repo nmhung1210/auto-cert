@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/nmhung1210/auto-cert#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "pm2": "^3.5.1"
