@@ -11,7 +11,7 @@ const renews = () => {
   renewsPid = setTimeout(renews, 24 * 60 * 60 * 1000);
 };
 
-app.use('/.well-known', express.static('/tmp/.well-known'));
+app.all('/.well-known/*', express.static('/tmp'));
 app.use('/.ssl/init', function(req, res) {
   if (tracks[req.hostname]) {
     return req.send('ok');
@@ -31,7 +31,7 @@ app.use('/.ssl/init', function(req, res) {
   }
 });
 app.use(function(req, res) {
-  res.redirect('https://' + req.headers.host + req.url);
+  return res.redirect('https://' + req.headers.host + req.url);
 });
 
 app.listen(80);
