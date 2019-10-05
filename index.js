@@ -1,5 +1,6 @@
 const express = require('express');
 const exec = require('child_process').exec;
+const fetch = require('node-fetch');
 
 const app = express();
 const tracks = {};
@@ -36,14 +37,15 @@ const initSSL = async hostname => {
   });
 };
 
-const initAWSHostname = async () => {
+const initPublicHostname = async () => {
   try {
-    const result = await fetch('http://169.254.169.254/latest/meta-data/public-hostname');
+    const result = await fetch('https://us-central1-freedomain.cloudfunctions.net/domain');
     const hostname = await result.text();
+    console.log({ hostname });
     const sslResult = await initSSL(hostname);
-    console.log(`initAWSHostname ${hostname}=${sslResult}`);
+    console.log(`initPublicHostname ${hostname}=${sslResult}`);
   } catch (error) {
-    console.log('Not a AWS instance!');
+    console.log('initPublicHostname error!', error);
   }
 };
 
@@ -61,6 +63,6 @@ app.use((req, res) => {
   return res.redirect('https://' + req.headers.host + req.url);
 });
 
-initAWSHostname();
+initPublicHostname();
 
 app.listen(80);
