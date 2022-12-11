@@ -25,7 +25,7 @@
   "homepage": "https://github.com/nmhung1210/auto-cert#readme",
   "dependencies": {
     "@types/node-fetch": "^2.5.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
